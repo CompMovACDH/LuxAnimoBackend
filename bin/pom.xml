@@ -12,7 +12,7 @@
     </parent>
 
     <groupId>com.lsdi.social.mhealth</groupId>
-    <artifactId>LuxAnimoBackend</artifactId>
+    <artifactId>Social mHealth</artifactId>
     <version>1.0-SNAPSHOT</version>
     <description>Projeto Monitoramento Pervasivo da Saúde Mental</description>
 
