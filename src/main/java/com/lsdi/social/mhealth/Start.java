@@ -13,19 +13,19 @@ public class Start {
     private static Logger LOG = LoggerFactory.getLogger(Start.class);
 
     public static void main(String[] args) {
-
         StreamReceiver receiver = new StreamReceiver();
-        receiver.setBroker("tcp://127.0.0.1:1883");
-        receiver.setTopic("social");
-        receiver.receiverStream();
+        /*receiver.setBroker("tcp://127.0.0.1:1883");*/
+        receiver.setBroker("tcp://broker.mqttdashboard.com");
+        receiver.setTopic("mhub/lcmuniz@lsdi.ufma.br/service_topic/stk_stk3x3x Ambient Light Sensor Non-wakeup");        
+        /*receiver.setTopic("social");*/
+        receiver.receiverStream();     
 
         SociabilityPattern sociabilityPattern = new SociabilityPattern
-                .Builder(ContextEnum.MONDAY_.toString(), 50.0)
-                .setRootTopic("com/lsdi/sociability")
-                .setAbnormalBehavior(true)
-                .setChangeBehavior(true)
-                .build();
-
+        .Builder(ContextEnum.MONDAY_.toString(), 50.0)
+        //.setRootTopic("com/lsdi/sociability")
+        .setRootTopic("light_luminosity_response")
+        .setAbnormalBehavior(true)
+        .setChangeBehavior(true)
+        .build();        
     }
-
 }

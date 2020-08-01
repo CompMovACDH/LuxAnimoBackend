@@ -22,12 +22,15 @@ public class EnrichEvent {
      * Extract time slot.
      * @param event the event to handle
      */
+    
     public SocialUpdate extractContextData(SocialUpdate event, Date dateTime){
         Calendar cal = Calendar.getInstance();
         cal.setTime(dateTime);
         DateFormatSymbols dfs = new DateFormatSymbols(Locale.US);
         String day = dfs.getWeekdays()[cal.get(Calendar.DAY_OF_WEEK)];
         String week = (dateTime.getDay() >= 6) | (dateTime.getDay()==0)? "Weekend" : "Week";
+        System.out.println(day);
+        //System.out.println(week); 
         return new SocialUpdate("u52", dateTime,"Interaction",event.getSlot(), day, week,"All");
     }
 
@@ -38,5 +41,4 @@ public class EnrichEvent {
         socialUpdate = extractContextData(socialUpdate, event.getStartTime());
         return socialUpdate;
     }
-
 }

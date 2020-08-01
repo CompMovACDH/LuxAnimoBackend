@@ -7,7 +7,6 @@ import com.lsdi.social.mhealth.subscriber.ChangeBehaviorListener;
 import com.lsdi.social.mhealth.util.EPLQueries;
 import com.espertech.esper.client.EPStatement;
 
-
 public class SociabilityPattern {
 
     private String context;
@@ -35,7 +34,6 @@ public class SociabilityPattern {
         private Double sensitivityOfChange;
         private AbnormalBehaviorListener abnormalBehaviorListener;
 
-
         public Builder(String context, Double sensitivityOfChange){
             this.context = context;
             this.sensitivityOfChange = sensitivityOfChange;
@@ -57,7 +55,7 @@ public class SociabilityPattern {
             }
             return this;
         }
-
+        
         public Builder setChangeBehavior(boolean changeBehavior) {
             this.changeBehavior = changeBehavior;
 
@@ -67,12 +65,11 @@ public class SociabilityPattern {
             changeBehaviorSmt.addListener(changeBehaviorListener);
             return this;
         }
-
-        public SociabilityPattern build(){
+        
+        public SociabilityPattern build(){        
             return new SociabilityPattern(context,
                     abnormalBehavior,
                     changeBehavior, rootTopic, sensitivityOfChange);
         }
     }
-
 }

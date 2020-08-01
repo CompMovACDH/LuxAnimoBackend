@@ -15,7 +15,6 @@ import net.sourceforge.jFuzzyLogic.rule.Rule;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import java.util.HashMap;
 import java.util.List;
 
@@ -36,7 +35,8 @@ public class AbnormalBehaviorListener implements UpdateListener {
     public AbnormalBehaviorListener(String context, Double sensitivityOfChange, String topic) {
         this.context = context;
         this.sensitivityOfChange = sensitivityOfChange;
-        this.topic = topic+"/"+context+"/AbnormalBehavior";
+        //this.topic = topic+"/"+context+"/AbnormalBehavior";
+        this.topic = topic;
 
     }
 
@@ -59,12 +59,11 @@ public class AbnormalBehaviorListener implements UpdateListener {
             e.printStackTrace();
         }
         // Salva o padrão de sociabilidade reconhecido
-        List<List<Integer>> currentPattern = FileUtil.getCurrentPattern("patternsHistory\\currentPattern.json").get(context);
+        List<List<Integer>> currentPattern = FileUtil.getCurrentPattern("C:\\Users\\KSA2\\Documents\\git_projects\\LuxAnimoBackend\\patternsHistory\\currentPattern.json").get(context);
 
         if (currentPattern != null) {
             detectDrift(sociabilityPatterns, currentPattern);
         }
-
 
     }
 
@@ -115,8 +114,7 @@ public class AbnormalBehaviorListener implements UpdateListener {
                     moderateValue,
                     message
             );
-            String jsonChangeNotify = gson.toJson(changeBehavior);
-
+            String jsonChangeNotify = gson.toJson(changeBehavior);        
             StreamReceiver.client.publish(topic,new MqttMessage(jsonChangeNotify.getBytes()));
 
             //System.out.println(fis.getFunctionBlock("drift").getVariables());
@@ -132,7 +130,6 @@ public class AbnormalBehaviorListener implements UpdateListener {
     }
 
     private double getSimilarity(List<List<Integer>> sociabilityPattern, List<List<Integer>> currentPattern){
-
         HashMap<Integer, Boolean> actualPatternBool = FileUtil.patternToBoolean(sociabilityPattern);
         HashMap<Integer, Boolean> oldPatternBool = FileUtil.patternToBoolean(currentPattern);
         double countIntersection = 0;
@@ -163,5 +160,4 @@ public class AbnormalBehaviorListener implements UpdateListener {
         return change >= moderateChange ? "Abnormal Behavior Detected" :
                 "Abnormal Behavior Warning";
     }
-
 }

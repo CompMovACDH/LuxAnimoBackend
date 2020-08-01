@@ -58,7 +58,7 @@ public class ChangeBehaviorListener implements UpdateListener {
 
         //grava o primeiro padrão social
         if (countPattern <2){
-            ExtractPatternUtil.writePattern(sociabilityPatterns, context, "patternsHistory\\currentPattern.json");
+            ExtractPatternUtil.writePattern(sociabilityPatterns, context,"C:\\Users\\KSA2\\Documents\\git_projects\\LuxAnimoBackend\\patternsHistory\\currentPattern.json");
             //Publica o padrão identificado
             Date actualDate = eventHandler.getActualDate();
             NotifyNewPattern notifyNewPattern = new NotifyNewPattern(
@@ -68,7 +68,8 @@ public class ChangeBehaviorListener implements UpdateListener {
                     sociabilityPatterns);
 
             try {
-                StreamReceiver.client.publish(topic+"/"+context+"/newPattern", new MqttMessage(gson.toJson(notifyNewPattern).getBytes()));
+                //StreamReceiver.client.publish(topic+"/"+context+"/newPattern", new MqttMessage(gson.toJson(notifyNewPattern).getBytes()));
+                StreamReceiver.client.publish(topic, new MqttMessage(gson.toJson(notifyNewPattern).getBytes()));
             } catch (MqttException e) {
                 e.printStackTrace();
             }
@@ -119,7 +120,7 @@ public class ChangeBehaviorListener implements UpdateListener {
             //verifica se houve mudança e extrai e publica um novo padrão
             if (isChange(changeValue, moderateValue, noChangeValue)) {
 
-                ExtractPatternUtil.writePattern(sociabilityPatterns, context, "patternsHistory\\currentPattern.json");
+                ExtractPatternUtil.writePattern(sociabilityPatterns, context, "C:\\Users\\KSA2\\Documents\\git_projects\\LuxAnimoBackend\\patternsHistory\\currentPattern.json");
 
                 //Publica o padrão identificado
                 Date actualDate = eventHandler.getActualDate();
@@ -129,7 +130,8 @@ public class ChangeBehaviorListener implements UpdateListener {
                         context,
                         sociabilityPatterns);
                 try {
-                    StreamReceiver.client.publish(topic+"/"+context+"/newPattern", new MqttMessage(gson.toJson(notifyNewPattern).getBytes()));
+                    //StreamReceiver.client.publish(topic+"/"+context+"/newPattern", new MqttMessage(gson.toJson(notifyNewPattern).getBytes()));
+                    StreamReceiver.client.publish(topic, new MqttMessage(gson.toJson(notifyNewPattern).getBytes()));
                 } catch (MqttException e) {
                     e.printStackTrace();
                 }
@@ -138,15 +140,18 @@ public class ChangeBehaviorListener implements UpdateListener {
             }
 
             String jsonChangeNotify = gson.toJson(changeBehavior);
-            StreamReceiver.client.publish(topic+"/"+context+"/ChangeBehavior",new MqttMessage(jsonChangeNotify.getBytes()));
+            //StreamReceiver.client.publish(topic+"/"+context+"/ChangeBehavior",new MqttMessage(jsonChangeNotify.getBytes()));
+            StreamReceiver.client.publish(topic,new MqttMessage(jsonChangeNotify.getBytes()));
 
            // System.out.println(" -------------------------------------");
         }catch (Exception e){
             e.printStackTrace();
         }
         // Gpr.debug("drift[change]: " + fis.getFunctionBlock("drift").getVariable("drift").getMembership("change"));
-        // System.out.println(fis.getFunctionBlock("drift").getVariables());
-        // System.out.println( fis.getFunctionBlock("drift").getVariable("drift").getLinguisticTerms());
+        System.out.println(fis.getFunctionBlock("drift").getVariables());
+        //System.out.println( fis.getFunctionBlock("drift").getVariable("drift").getLinguisticTerms());
+        System.out.println("Change Behavior");
+        //System.out.println(jsonChangeNotify);
     }
 
     //verifica se houve mudança
@@ -157,7 +162,7 @@ public class ChangeBehaviorListener implements UpdateListener {
     //calcula a similaridade entre o padrão encontrado e o antigo
     private double getSimilarity(List<List<Integer>> actualPattern){
         //String oldPath = "week"+(countPattern-1);
-        List<List<Integer>> oldPattern = FileUtil.getCurrentPattern("patternsHistory\\currentPattern.json").get(context);
+        List<List<Integer>> oldPattern = FileUtil.getCurrentPattern("C:\\Users\\KSA2\\Documents\\git_projects\\SocialMHealth\\LuxAnimoBackend\\currentPattern.json").get(context);
         HashMap<Integer, Boolean> actualPatternBool = FileUtil.patternToBoolean(actualPattern);
         HashMap<Integer, Boolean> oldPatternBool = FileUtil.patternToBoolean(oldPattern);
         double countIntersection = 0;
@@ -184,5 +189,4 @@ public class ChangeBehaviorListener implements UpdateListener {
         return change >= moderateChange ? "Change in social routine" :
                 "Moderate change in social routine";
     }
-
 }

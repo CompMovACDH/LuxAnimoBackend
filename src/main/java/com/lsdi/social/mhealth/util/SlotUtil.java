@@ -26,6 +26,9 @@ public class SlotUtil {
         int hourEvent = event.getStartTime().getHours();
         int minuteEvent = event.getStartTime().getMinutes();
         int slot = (int)(hourEvent/w) + getSlotMinute(w, minuteEvent);
+        //System.out.println(hourEvent);
+        //System.out.println(minuteEvent); 
+        //System.out.println(slot); 
         return slot;
     }
 

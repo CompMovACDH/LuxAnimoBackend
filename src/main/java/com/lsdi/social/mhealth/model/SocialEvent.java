@@ -28,7 +28,6 @@ public class SocialEvent {
         this.duration = duration;
     }
 
-
     @Override
     public String toString() {
         return "{id: "+id+", startTime: "+startTime+", endTime: "+endTime+", duration: "+duration+"}";
